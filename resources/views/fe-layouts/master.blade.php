@@ -35,8 +35,6 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-
-  @stack('styles')
 </head>
 
 <body class="index-page">
@@ -55,8 +53,8 @@
         <ul>
           <li><a href="{{ url('/') }}" class="active">Home</a></li>
           <li><a href="{{ url('/events') }}">Events</a></li>
-          <li><a href="{{ url('/my-order') }}">My Order <span class="position-absolute top-20 start-100 translate-middle badge rounded-pill bg-danger">
-                99+
+          <li><a href="{{ url('/cart-event') }}">My Order <span class="position-absolute top-20 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ $headerData['event'] }}
                 <span class="visually-hidden">unread messages</span>
               </span></a></li>
           @if(Auth::check())

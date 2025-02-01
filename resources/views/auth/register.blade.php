@@ -36,6 +36,28 @@
                                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" class="form-control" placeholder="Email">
                             </div>
                             <div class="form-group mt-3">
+                                <input id="no_telp" type="number" name="no_telp" value="{{ old('no_telp') }}" required autocomplete="tel" class="form-control" placeholder="Phone Number">
+                            </div>
+                            <div class="form-group mt-3">
+                                <select id="tipe_user" name="tipe_user" class="form-control" required>
+                                    <option value="" disabled {{ old('tipe_user') == '' ? 'selected' : '' }}>Select User Type</option>
+                                    <option value="Mahasiswa D3" {{ old('tipe_user') == 'Mahasiswa D3' ? 'selected' : '' }}>Mahasiswa D3</option>
+                                    <option value="Mahasiswa S1" {{ old('tipe_user') == 'Mahasiswa S1' ? 'selected' : '' }}>Mahasiswa S1</option>
+                                    <option value="Mahasiswa S2" {{ old('tipe_user') == 'Mahasiswa S2' ? 'selected' : '' }}>Mahasiswa S2</option>
+                                    <option value="Mahasiswa S3" {{ old('tipe_user') == 'Mahasiswa S3' ? 'selected' : '' }}>Mahasiswa S3</option>
+                                    <option value="Mahasiswa S1 UPI YAI/STIE YAI" {{ old('tipe_user') == 'Mahasiswa S1 UPI YAI/STIE YAI' ? 'selected' : '' }}>Mahasiswa S1 UPI YAI/STIE YAI</option>
+                                    <option value="Dosen" {{ old('tipe_user') == 'Dosen' ? 'selected' : '' }}>Dosen</option>
+                                    <option value="Umum" {{ old('tipe_user') == 'Umum' ? 'selected' : '' }}>Umum</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <input id="institusi_asal" type="text" name="institusi_asal" value="{{ old('institusi_asal') }}" required autocomplete="tel" class="form-control" placeholder="Institusi Asal">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="alamat">Address</label>
+                                <textarea id="alamat" name="alamat" rows="4" class="form-control" required>{{ old('alamat') }}</textarea>
+                            </div>
+                            <div class="form-group mt-3">
                                 <input id="password" type="password" name="password" required autocomplete="new-password" class="form-control" placeholder="Password">
                             </div>
                             <div class="form-group mt-3">

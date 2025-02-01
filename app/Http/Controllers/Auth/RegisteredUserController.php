@@ -34,6 +34,10 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'no_telp' => ['required', 'string', 'lowercase', 'max:20', 'unique:' . User::class],
+            'tipe_user' => ['required', 'string', 'max:25'],
+            'institusi_asal' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'g-recaptcha-response' => ['required', 'string'],
         ]);
@@ -48,6 +52,10 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'no_telp' => $request->no_telp,
+            'tipe_user' => $request->tipe_user,
+            'institusi_asal' => $request->institusi_asal,
+            'alamat' => $request->alamat,
         ]);
         event(new Registered($user));
         Auth::login($user);

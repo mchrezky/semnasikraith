@@ -35,6 +35,9 @@ class Event extends Model
         'email7',
         'hasil_cek_turnitin',
         'file_hasil_cek_turnitin',
+        'category',
+        'link_url_ojs',
+        'file_ojs',
         'konfirmasi_bayar',
         'date',
         'hibah',
@@ -49,6 +52,7 @@ class Event extends Model
         'review_by',
         'order_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'status'
     ];
 }

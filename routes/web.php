@@ -16,6 +16,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/events', [EventController::class, 'index']);
     Route::get('/create-event/{id}', [EventController::class, 'createEventView']);
     Route::post('/create-event-submit', [EventController::class, 'createEvent']);
+    Route::post('/create-event-non-submit', [EventController::class, 'createEventNon']);
+    Route::get('/cart-event', [EventController::class, 'cartEventView']);
+    Route::post('/delete-event', [EventController::class, 'deleteEvent']);
+    Route::post('/delete-event-non', [EventController::class, 'deleteEventNon']);
+    Route::get('/invoice-event', [EventController::class, 'inoviceEvent']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

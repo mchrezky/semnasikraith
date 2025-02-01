@@ -5,7 +5,7 @@
     <!-- Page Title -->
     <div class="page-title dark-background" data-aos="fade" style="background-image: url('{{ asset('assets/img/page-title-bg.webp') }}');">
         <div class="container position-relative">
-            <h1>Events</h1>
+            <h1>Create Events</h1>
             <p>
                 Home
                 /
@@ -26,23 +26,23 @@
             <div class="d-flex flex-column flex-md-row align-items-center p-4">
                 <!-- Gambar di atas pada layar kecil dan di kiri pada layar besar -->
                 <div class="center mb-3 mb-md-0 me-md-4">
-                    <img src="{{ asset('assets/img/event/' . $data->foto) }}" alt="Image" class="img-fluid img-overlap" style="height: 300px;" data-aos="zoom-out">
+                    <img src="{{ asset('assets/img/event/' . $data['event']->foto) }}" alt="Image" class="img-fluid img-overlap" style="height: 300px;" data-aos="zoom-out">
                 </div>
 
                 <!-- Informasi di bawah gambar pada layar kecil dan di sebelah kanan pada layar besar -->
                 <div class="content">
-                    <h4 class="mb-2">{{ $data->nama }}</h4>
-                    <p class="text-muted mb-4">{{ $data->ket }}</p>
+                    <h4 class="mb-2">{{ $data['event']->nama }}</h4>
+                    <p class="text-muted mb-4">{{ $data['event']->ket }}</p>
 
                     <div class="meta d-flex align-items-center mb-3 p-0">
                         <!-- Kategori -->
                         <div class="d-flex align-items-center me-3">
-                            <i class="bi bi-tags"></i> <span class="ps-2">{{ $data->type_name }}</span>
+                            <i class="bi bi-tags"></i> <span class="ps-2">{{ $data['event']->type_name }}</span>
                         </div>
 
                         <!-- Harga -->
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-cash-coin"></i> <span class="ps-2">Rp {{ number_format($data->harga, 0, ',', '.') }}</span>
+                            <i class="bi bi-cash-coin"></i> <span class="ps-2">Rp {{ number_format($data['event']->harga, 0, ',', '.') }}</span>
                         </div>
                     </div>
                 </div>
@@ -55,8 +55,20 @@
                     <div class="border p-3 bg-light">
                         <label for="title">Judul Artikel <span class="text-danger">*</span></label>
                         <input id="title" type="text" name="title" required class="form-control" placeholder="Title">
-                        <input id="event_list" type="hidden" name="event_list" value="{{ $data->id }}" required class="form-control" placeholder="event_list">
-                        <input id="seminar_name" type="hidden" name="seminar_name" value="{{ $data->nama }}" required class="form-control" placeholder="seminar_name">
+                        <input id="event_list" type="hidden" name="event_list" value="{{ $data['event']->id }}" required class="form-control" placeholder="event_list">
+                        <input id="seminar_name" type="hidden" name="seminar_name" value="{{ $data['event']->nama }}" required class="form-control" placeholder="seminar_name">
+                    </div>
+                </div>
+
+                <div class="form-group mt-3 col-12">
+                    <div class="border p-3 bg-light">
+                        <label for="title">Jurnal Luaran Yang Dituju
+                            <span class="text-danger">*</span></label><select id="category" name="category" class="form-control" required>
+                            <option value="" disabled selected>Select Category</option>
+                            @foreach ($data['categories'] as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
@@ -66,11 +78,11 @@
                             <div class="row">
                                 <div class="form-group mt-3 col-sm-12 col-md-6">
                                     <label for="writer1">Nama Penulis 1 (tanpa gelar-TIDAK BOLEH SALAH untuk SERTIFIKAT) <span class="text-danger">*</span></label>
-                                    <input id="writer1" type="text" name="writer1" required class="form-control" placeholder="Nama Penulis 1">
+                                    <input id="writer1" type="text" name="writer1" required class="form-control" placeholder="Nama Penulis 1 (Presenter)">
                                 </div>
                                 <div class="form-group mt-3 col-sm-12 col-md-6">
                                     <label for="email1">Email Penulis 1 <span class="text-danger">*</span></label>
-                                    <input id="email1" type="email" name="email1" required class="form-control" placeholder="Email Penulis 1">
+                                    <input id="email1" type="email" name="email1" required class="form-control" placeholder="Email Penulis 1 (Presenter)">
                                 </div>
                             </div>
                         </div>
@@ -194,6 +206,29 @@
                                     <div class="form-group mt-3 col-sm-12 col-md-6">
                                         <label for="file_hasil_cek_turnitin">File Hasil Cek Turnitin (PDF Maksimal 10MB) <span class="text-danger">*</span></label>
                                         <input id="file_hasil_cek_turnitin" type="file" name="file_hasil_cek_turnitin" class="form-control" accept="application/pdf" required>
+                                        <small class="text-muted">Maksimal ukuran file: 10MB, hanya PDF</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3 col-12">
+                    <div class="row">
+                        <div class="form-group mt-3 col-12">
+                            <div class="border p-3 bg-light">
+                                <div class="row">
+                                    <!-- Turnitin Result (col 6) -->
+                                    <div class="form-group mt-3 col-sm-12 col-md-6">
+                                        <label for="link_url_ojs">Link URL bukti sudah submit ke OJS terkait <span class="text-danger">*</span></label>
+                                        <input id="link_url_ojs" type="text" name="link_url_ojs" class="form-control" placeholder="Masukkan Link URL OJS" required>
+                                    </div>
+
+                                    <!-- Turnitin File (col 6) -->
+                                    <div class="form-group mt-3 col-sm-12 col-md-6">
+                                        <label for="file_ojs">File OJS (PDF Maksimal 10MB) <span class="text-danger">*</span></label>
+                                        <input id="file_ojs" type="file" name="file_ojs" class="form-control" accept="application/pdf" required>
                                         <small class="text-muted">Maksimal ukuran file: 10MB, hanya PDF</small>
                                     </div>
                                 </div>

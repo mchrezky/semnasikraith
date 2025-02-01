@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Table\Event;
+use App\Models\Table\EventNon;
 use App\Models\Table\EventList;
+use App\Models\Table\Categories;
 use Exception;
 
 class EventController extends Controller
@@ -36,22 +38,36 @@ class EventController extends Controller
             ->where('event_list.id', $id_event)
             ->first();
 
-        return view('fe-semnas.create-event')->with('data', $event);
+        $categories = Categories::all();
+
+        $data = [
+            'event' => $event,
+            'categories' => $categories
+        ];
+
+        if ($event->id_type == 1) {
+            return view('fe-semnas.create-event')->with('data', $data);
+        } elseif ($event->id_type == 2) {
+            return view('fe-semnas.create-event-none')->with('data', $data);
+        }
+
+        return redirect()->back()->with('error', 'Failed!');
     }
 
     public function createEvent(Request $request)
     {
         try {
-            $generatedId = $this->idOtomatis();
 
             $file = $request->file('file_hasil_cek_turnitin');
+            $file2 = $request->file('file_ojs');
 
-            $filePathName = str_replace('/', '_', $generatedId) . '_file_hasil_cek_turnitin.pdf';
+            $filePathName = $request->event_list . '_' . Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_hasil_cek_turnitin.pdf';
+            $filePathName2 = $request->event_list . '_' . Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_ojs.pdf';
 
-            $filePath = $file->storeAs('public/file_turnitin', $filePathName);
+            $file->storeAs('public/file_turnitin', $filePathName);
+            $file2->storeAs('public/file_ojs', $filePathName2);
 
             $data = [
-                'id' => $generatedId,
                 'id_user' => Auth::user()->id,
                 'event_list' => $request->event_list,
                 'seminar_name' => $request->seminar_name,
@@ -70,40 +86,24 @@ class EventController extends Controller
                 'email6' => $request->email6,
                 'writer7' => $request->writer7,
                 'email7' => $request->email7,
-                'hasil_cek_turnitin' => $filePathName,
-                'file_hasil_cek_turnitin' => $filePath,
+                'hasil_cek_turnitin' => $request->hasil_cek_turnitin,
+                'file_hasil_cek_turnitin' => $filePathName,
+                'category' => $request->category,
+                'link_url_ojs' => $request->link_url_ojs,
+                'file_ojs' => $filePathName2,
                 'date' => date('Y-m-d'),
-                'order_id' => $this->orderIdOtomatis(),
             ];
 
             $create = Event::create($data);
 
             if ($create) {
-                return redirect('/')->with('success', 'Submit data successfully.');
+                return redirect('/cart-event')->with('success', 'Submit data successfully.');
             } else {
                 return redirect()->back()->with('error', 'Failed!');
             }
         } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', 'Error Request, Exception Error ');
         }
-    }
-
-
-    function idOtomatis()
-    {
-        $lastEvent = Event::latest()->first();
-        $lastId = $lastEvent ? (int) explode('/', $lastEvent->id)[0] : 0;
-
-        $newId = str_pad($lastId + 1, 5, '0', STR_PAD_LEFT);
-
-        $seminarName = strtoupper(request()->seminar_name);
-        $eventList = request()->event_list;
-        $userId = Auth::user()->id;
-        $currentDate = date('Y-m-d');
-
-        $id = "{$newId}/{$eventList}/{$userId}/{$currentDate}";
-
-        return $id;
     }
 
     function orderIdOtomatis()
@@ -116,10 +116,151 @@ class EventController extends Controller
         $seminarName = strtoupper(request()->seminar_name);
         $eventList = request()->event_list;
         $userId = Auth::user()->id;
-        $currentDate = date('Y-m-d');
+        $currentDate = date('Y-m-d-H-i-s');
 
         $id = "#INV-{$newId}-{$eventList}-{$userId}-{$currentDate}";
 
         return $id;
+    }
+
+    public function cartEventView(Request $request)
+    {
+        $event = Event::select('event.*', 'event_type.nama as type_name', 'event_list.harga as event_harga', 'event_list.foto as event_foto')
+            ->join('event_list', 'event.event_list', '=', 'event_list.id')
+            ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
+            ->where('event.id_user', Auth::user()->id)
+            ->where('event.konfirmasi_bayar', 0)
+            ->where('event.status', 1)
+            ->get();
+
+        $eventNon = EventNon::select('event_non.*', 'event_type.nama as type_name', 'event_list.harga as event_harga', 'event_list.foto as event_foto')
+            ->join('event_list', 'event_non.event_list', '=', 'event_list.id')
+            ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
+            ->where('event_non.id_user', Auth::user()->id)
+            ->where('event_non.konfirmasi_bayar', 0)
+            ->where('event_non.status', 1)
+            ->get();
+
+        $data = [
+            'event' => $event,
+            'eventNon' => $eventNon
+        ];
+
+        return view('fe-semnas.cart-event')->with('data', $data);
+    }
+
+    public function deleteEvent(Request $request)
+    {
+        try {
+            $data = [
+                'status' => 0,
+            ];
+
+            $event = Event::where('id', $request->event_id)->update($data);
+
+            if ($event) {
+                return redirect()->back()->with('success', 'Data deleted successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed!');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error Request, Exception Error ');
+        }
+    }
+
+    public function inoviceEvent(Request $request)
+    {
+        $event = Event::select('event.*', 'event_type.nama as type_name', 'event_list.harga as event_harga', 'event_list.foto as event_foto')
+            ->join('event_list', 'event.event_list', '=', 'event_list.id')
+            ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
+            ->where('event.id_user', Auth::user()->id)
+            ->where('event.konfirmasi_bayar', 0)
+            ->where('event.status', 1)
+            ->get();
+
+        $eventNon = EventNon::select('event_non.*', 'event_type.nama as type_name', 'event_list.harga as event_harga', 'event_list.foto as event_foto')
+            ->join('event_list', 'event_non.event_list', '=', 'event_list.id')
+            ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
+            ->where('event_non.id_user', Auth::user()->id)
+            ->where('event_non.konfirmasi_bayar', 0)
+            ->where('event_non.status', 1)
+            ->get();
+
+
+        // Untuk mengecek apakah ada order id yang null
+        $hasNullOrderId = $event->contains(function ($e) {
+            return is_null($e->order_id);
+        });
+
+        $hasNullOrderId2 = $eventNon->contains(function ($e) {
+            return is_null($e->order_id);
+        });
+
+        if ($hasNullOrderId || $hasNullOrderId2) {
+            $orderId = $this->orderIdOtomatis();
+
+            foreach ($event as $e) {
+                $e->order_id = $orderId;
+                $e->save();
+            }
+
+            foreach ($eventNon as $e) {
+                $e->order_id = $orderId;
+                $e->save();
+            }
+        }
+
+        $data = [
+            'event' => $event,
+            'eventNon' => $eventNon
+        ];
+
+        return view('fe-semnas.invoice-event')->with('data', $data);
+    }
+
+    public function createEventNon(Request $request)
+    {
+        try {
+            $data = [
+                'id_user' => Auth::user()->id,
+                'event_list' => $request->event_list,
+                'seminar_name' => $request->seminar_name,
+                'nama_lengkap' => $request->nama_lengkap,
+                'institusi_asal' => $request->institusi_asal,
+                'bidang_ilmu' => $request->bidang_ilmu,
+                'alamat_institusi' => $request->alamat_institusi,
+                'kota' => $request->kota,
+                'date' => date('Y-m-d'),
+            ];
+
+            $create = EventNon::create($data);
+
+            if ($create) {
+                return redirect('/cart-event')->with('success', 'Submit data successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed!');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deleteEventNon(Request $request)
+    {
+        try {
+            $data = [
+                'status' => 0,
+            ];
+
+            $event = EventNon::where('id', $request->event_id)->update($data);
+
+            if ($event) {
+                return redirect()->back()->with('success', 'Data deleted successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed!');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error Request, Exception Error ');
+        }
     }
 }
