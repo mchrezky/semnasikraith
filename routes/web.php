@@ -14,6 +14,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::middleware('auth')->group(function () {
     //Events
     Route::get('/events', [EventController::class, 'index']);
+    Route::get('/create-event/{id}', [EventController::class, 'createEventView']);
+    Route::post('/create-event-submit', [EventController::class, 'createEvent']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

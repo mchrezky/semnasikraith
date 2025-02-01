@@ -55,9 +55,10 @@
         <ul>
           <li><a href="{{ url('/') }}" class="active">Home</a></li>
           <li><a href="{{ url('/events') }}">Events</a></li>
-          <li><a href="services.html">Our Services</a></li>
-          <li><a href="testimonials.html">Testimonials</a></li>
-          <li><a href="blog.html">Blog</a></li>
+          <li><a href="{{ url('/my-order') }}">My Order <span class="position-absolute top-20 start-100 translate-middle badge rounded-pill bg-danger">
+                99+
+                <span class="visually-hidden">unread messages</span>
+              </span></a></li>
           @if(Auth::check())
           <li class="dropdown">
             <a href="#">
@@ -202,6 +203,29 @@
 
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  @if(session('success'))
+  <script>
+    var successMessage = <?php echo json_encode(session('success')); ?>;
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: successMessage
+    });
+  </script>
+  @endif
+
+  @if(session('error'))
+  <script>
+    var errorMessage = <?php echo json_encode(session('error')); ?>;
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: errorMessage
+    });
+  </script>
+  @endif
 
 </body>
 

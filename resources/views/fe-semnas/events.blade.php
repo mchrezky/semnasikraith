@@ -3,7 +3,7 @@
 <main class="main">
 
     <!-- Page Title -->
-    <div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+    <div class="page-title dark-background" data-aos="fade" style="background-image: url('{{ asset('assets/img/page-title-bg.webp') }}');">
         <div class="container position-relative">
             <h1>Events</h1>
             <p>
@@ -45,7 +45,7 @@
 
                         <div class="post-content d-flex flex-column flex-grow-1 p-3">
                             <h3 class="post-title">{{ $item->nama }}</h3>
-                            <a href="blog-details.html" class="readmore stretched-link mt-auto"><span>Daftar Sekarang</span><i class="bi bi-arrow-right"></i></a>
+                            <a href="{{ url('create-event/' . $item->id) }}" class="readmore stretched-link mt-auto"><span>Daftar Sekarang</span><i class="bi bi-arrow-right"></i></a>
                         </div>
 
                     </article>
