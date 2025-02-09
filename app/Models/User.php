@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'no_telp',
         'tipe_user',
+        'role',
         'institusi_asal',
         'alamat'
     ];

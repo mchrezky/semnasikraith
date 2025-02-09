@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                             @foreach ($data['order'] as $index => $order)
-                            <tr class="align-middle" data-id="{{ $order->id }}" data-jumlah="{{ $order->jumlah }}" data-note="{{ $order->note }}" data-tgl_bayar="{{ $order->tgl_bayar }}" data-file="{{ $order->file }}">
+                            <tr class="align-middle" data-id="{{ $order->id }}" data-jumlah="{{ $order->jumlah }}" data-note="{{ $order->note }}" data-tgl_bayar="{{ $order->tgl_bayar }}" data-file="{{ asset('storage/file_bukti_pembayaran/' . $order->file) }}">
                                 <td style="text-align: center;">{{ $index + 1 }}</td>
                                 <td>{{ $order->id }}</td>
                                 <td>{{ $order->created_at }}</td>
@@ -185,7 +185,7 @@
             const orderNote = row.getAttribute('data-note');
             const orderTglBayar = row.getAttribute('data-tgl_bayar');
             const orderStatus = row.getAttribute('data-status');
-            const paymentProof = row.getAttribute('data-file');
+            const paymentProof = '' + row.getAttribute('data-file');
 
             document.getElementById('view-jumlah').textContent = 'Rp ' + new Intl.NumberFormat().format(orderJumlah);
             document.getElementById('view-note').value = orderNote;
