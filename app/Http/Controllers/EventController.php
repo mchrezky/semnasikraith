@@ -20,7 +20,7 @@ class EventController extends Controller
     public function index()
     {
 
-        $event = EventList::select('event_list.*', 'event_type.nama as type_name','ms_semnas.name as semnas_name')->where('event_list.status', '1')
+        $event = EventList::select('event_list.*', 'event_type.nama as type_name', 'ms_semnas.name as semnas_name')->where('event_list.status', '1')
             ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
             ->join('ms_semnas', 'event_list.semnas_id', '=', 'ms_semnas.id')
             ->paginate(6);
@@ -34,18 +34,18 @@ class EventController extends Controller
     public function events()
     {
 
-        $event = Event::select('event.*','event_list.nama', 'event_type.nama as type_name','ms_semnas.name as semnas_name')->where('event_list.status', '1')
-            ->where('id_user',Auth::user()->id)
+        $event = Event::select('event.*', 'event_list.nama', 'event_type.nama as type_name', 'ms_semnas.name as semnas_name')->where('event_list.status', '1')
+            ->where('id_user', Auth::user()->id)
             ->join('event_list', 'event_list.id', '=', 'event.event_list')
             ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
             ->join('ms_semnas', 'event_list.semnas_id', '=', 'ms_semnas.id')
-            ->orderBy('id','asc')->get();
-        $eventnon = EventNon::select('event_non.*','event_list.nama', 'event_type.nama as type_name','ms_semnas.name as semnas_name')->where('event_list.status', '1')
-            ->where('id_user',Auth::user()->id)
+            ->orderBy('id', 'asc')->get();
+        $eventnon = EventNon::select('event_non.*', 'event_list.nama', 'event_type.nama as type_name', 'ms_semnas.name as semnas_name')->where('event_list.status', '1')
+            ->where('id_user', Auth::user()->id)
             ->join('event_list', 'event_list.id', '=', 'event_non.event_list')
             ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
             ->join('ms_semnas', 'event_list.semnas_id', '=', 'ms_semnas.id')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id', 'asc')->get();
         $data = [
             'event' => $event,
             'eventnon' => $eventnon
@@ -188,6 +188,38 @@ class EventController extends Controller
             }
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Error Request, Exception Error ');
+        }
+    }
+
+    public function editEvent(Request $request)
+    {
+        try {
+
+            $file = $request->file('file_hasil_cek_turnitin');
+            $file2 = $request->file('file_ojs');
+
+            $filePathName = $request->id . '_' . Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_hasil_cek_turnitin.pdf';
+            $filePathName2 = $request->id . '_' . Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_ojs.pdf';
+
+            $file->storeAs('public/file_turnitin', $filePathName);
+            $file2->storeAs('public/file_ojs', $filePathName2);
+
+            $data = [
+                'hasil_cek_turnitin' => $request->hasil_cek_turnitin,
+                'file_hasil_cek_turnitin' => $filePathName,
+                'file_ojs' => $filePathName2,
+            ];
+
+            $event = Event::findOrFail($request->id);
+            $update = $event->update($data);
+
+            if ($update) {
+                return redirect()->back()->with('success', 'Edit data successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed!');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error Request, Exception Error ' . $e->getMessage());
         }
     }
 

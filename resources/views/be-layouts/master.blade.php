@@ -227,7 +227,7 @@
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="{{ url('/') }}">
-                <i class="bi bi-person"></i>
+                <i class="bi bi-house"></i>
                 <span>Return to the homepage</span>
               </a>
             </li>

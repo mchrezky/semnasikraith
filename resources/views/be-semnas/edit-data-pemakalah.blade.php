@@ -89,11 +89,11 @@
                                         <div class="row">
                                             <div class="form-group mt-3 col-sm-12 col-md-6">
                                                 <label for="writer2">Nama Penulis 2 (tanpa gelar-TIDAK BOLEH SALAH untuk SERTIFIKAT) <span class="text-danger"></span></label>
-                                                <input id="writer2" type="text" name="writer2" value="{{ $data['event']->writer2 }}" required class="form-control" placeholder="Nama Penulis 2">
+                                                <input id="writer2" type="text" name="writer2" value="{{ $data['event']->writer2 }}" class="form-control" placeholder="Nama Penulis 2">
                                             </div>
                                             <div class="form-group mt-3 col-sm-12 col-md-6">
                                                 <label for="email2">Email Penulis 2 <span class="text-danger"></span></label>
-                                                <input id="email2" type="email" name="email2" value="{{ $data['event']->email2 }}" required class="form-control" placeholder="Email Penulis 2">
+                                                <input id="email2" type="email" name="email2" value="{{ $data['event']->email2 }}" class="form-control" placeholder="Email Penulis 2">
                                             </div>
                                         </div>
                                     </div>

@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/delete-event', [EventController::class, 'deleteEvent']);
     Route::post('/delete-event-non', [EventController::class, 'deleteEventNon']);
     Route::get('/invoice-event', [EventController::class, 'inoviceEvent']);
+    Route::post('/edit-event-submit', [EventController::class, 'createEvent']);
 
     //Pembayaran
     Route::get('/riwayat-pembayaran', [PembayaranController::class, 'index']);
