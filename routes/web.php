@@ -7,6 +7,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\EventAdminController;
+use App\Http\Controllers\Admin\PesertaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/data-non-pemakalah', [EventAdminController::class, 'index2']);
     Route::get('/edit-data-non-pemakalah/{id}', [EventAdminController::class, 'editNonPemakalah']);
     Route::post('/edit-non-pemakalah-submit', [EventAdminController::class, 'editNonPemakalahSubmit']);
+    Route::get('/data-peserta', [PesertaController::class, 'index']);
 });
 
 require __DIR__ . '/auth.php';

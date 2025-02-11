@@ -312,6 +312,13 @@
         </a>
       </li><!-- End Payment Confirmation Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link {{ Request::is('data-peserta') ? '' : 'collapsed' }}" href="{{ url('/data-peserta') }}">
+          <i class="bi bi-credit-card"></i>
+          <span>Data Peserta</span>
+        </a>
+      </li><!-- End Data Peserta Nav -->
+
     </ul>
   </aside><!-- End Sidebar -->
 
