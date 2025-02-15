@@ -208,6 +208,7 @@ class EventController extends Controller
                 'hasil_cek_turnitin' => $request->hasil_cek_turnitin,
                 'file_hasil_cek_turnitin' => $filePathName,
                 'file_ojs' => $filePathName2,
+                'review' => "Telah Direvisi",
             ];
 
             $event = Event::findOrFail($request->id);

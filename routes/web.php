@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/delete-event', [EventController::class, 'deleteEvent']);
     Route::post('/delete-event-non', [EventController::class, 'deleteEventNon']);
     Route::get('/invoice-event', [EventController::class, 'inoviceEvent']);
-    Route::post('/edit-event-submit', [EventController::class, 'createEvent']);
+    Route::post('/edit-event-submit', [EventController::class, 'editEvent']);
 
     //Pembayaran
     Route::get('/riwayat-pembayaran', [PembayaranController::class, 'index']);
@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/data-pemakalah', [EventAdminController::class, 'index']);
     Route::get('/edit-data-pemakalah/{id}', [EventAdminController::class, 'editPemakalah']);
     Route::post('/edit-pemakalah-submit', [EventAdminController::class, 'editPemakalahSubmit']);
+    Route::get('/review-data-pemakalah/{id}', [EventAdminController::class, 'reviewPemakalah']);
+    Route::post('/review-pemakalah-submit', [EventAdminController::class, 'reviewPemakalahSubmit']);
     Route::get('/data-non-pemakalah', [EventAdminController::class, 'index2']);
     Route::get('/edit-data-non-pemakalah/{id}', [EventAdminController::class, 'editNonPemakalah']);
     Route::post('/edit-non-pemakalah-submit', [EventAdminController::class, 'editNonPemakalahSubmit']);

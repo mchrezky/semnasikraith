@@ -18,19 +18,37 @@
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Status</th>
+                                <th>Status Review</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data['event'] as $index => $event)
-                            <tr class="align-middle" data-id="{{ $event->id }}">
+                            <tr class="align-middle" data-id="{{ $event->id }}" data-abstrak="{{ $event->abstrak }}" data-metode_penelitian="{{ $event->metode_penelitian }}" data-pembahasan="{{ $event->pembahasan }}" data-kesimpulan="{{ $event->kesimpulan }}" data-plagriasi_turnitin="{{ $event->plagriasi_turnitin }}" data-ket_review="{{ $event->ket_review }}">
                                 <td style="text-align: center;">{{ $index + 1 }}</td>
                                 <td>{{ $event->nama }}</td>
                                 <td>{{ $event->title }}</td>
                                 <td>{{ $event->date }}</td>
                                 <td>{{ $event->konfirmasi_bayar == 1 ? 'Pending' : ($event->konfirmasi_bayar == 2 ? 'Dibayar' : ($event->konfirmasi_bayar == 3 ? 'Berhasil Dikonfirmasi' : 'Selesai')) }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                    @if ($event->review == 'Baru')
+                                    <span class="badge rounded-pill bg-secondary">Makalah Baru</span>
+                                    @elseif ($event->review == 'Telah Direview')
+                                    <span class="badge rounded-pill bg-warning text-dark">Sudah Direview</span>
+                                    @elseif ($event->review == 'Telah Direvisi')
+                                    <span class="badge rounded-pill bg-primary">Sudah Direvisi</span>
+                                    @elseif ($event->review == 'Selesai')
+                                    <span class="badge rounded-pill bg-success">Sudah ACC</span>
+                                    @else
+                                    <span class="badge rounded-pill bg-dark">{{ $event->review }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($event->review == 'Telah Direview')
+                                    <button type="button" class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">
+                                        Edit
+                                    </button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -71,12 +89,65 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Data Pemakalah</h5>
+                    <h5 class="modal-title" id="editModalLabel">Revisi Data Pemakalah</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="insert-form" action="{{ url('edit-event-submit') }}" method="post" role="form" enctype="multipart/form-data">
                         @csrf
+                        <h5 class="card-title text-center">Hasil Review</h5>
+                        <div class="row">
+                            <div class="form-group mt-3 col-12">
+                                <div class="border p-3 bg-light">
+                                    <div class="row">
+                                        <div class="form-group mt-3 col-sm-12 col-md-6">
+                                            <label for="abstrak">Review Abstrak <span class="text-danger">*</span></label>
+                                            <textarea id="abstrak-modal" type="text" name="abstrak" required class="form-control" placeholder="Review Abstrak" readonly></textarea>
+                                        </div>
+                                        <div class="form-group mt-3 col-sm-12 col-md-6">
+                                            <label for="metode_penelitian">Review Metode Penelitian <span class="text-danger">*</span></label>
+                                            <textarea id="metode_penelitian-modal" type="text" name="metode_penelitian" required class="form-control" placeholder="Review Metode Penelitian" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group mt-3 col-12">
+                                <div class="border p-3 bg-light">
+                                    <div class="row">
+                                        <div class="form-group mt-3 col-sm-12 col-md-6">
+                                            <label for="pembahasan">Review Pembahasan <span class="text-danger">*</span></label>
+                                            <textarea id="pembahasan-modal" type="text" name="pembahasan" required class="form-control" placeholder="Review Pembahasan" readonly></textarea>
+                                        </div>
+                                        <div class="form-group mt-3 col-sm-12 col-md-6">
+                                            <label for="kesimpulan">Review Kesimpulan <span class="text-danger">*</span></label>
+                                            <textarea id="kesimpulan-modal" type="text" name="kesimpulan" required class="form-control" placeholder="Review Kesimpulan" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group mt-3 col-12">
+                                <div class="border p-3 bg-light">
+                                    <div class="row">
+                                        <div class="form-group mt-3 col-sm-12 col-md-6">
+                                            <label for="plagriasi_turnitin">Review Plagriasi Turnitin <span class="text-danger">*</span></label>
+                                            <textarea id="plagriasi_turnitin-modal" type="text" name="plagriasi_turnitin" required class="form-control" placeholder="Review Plagriasi Turnitin" readonly></textarea>
+                                        </div>
+                                        <div class="form-group mt-3 col-sm-12 col-md-6">
+                                            <label for="ket_review">Keterangan Review <span class="text-danger">*</span></label>
+                                            <textarea id="ket_review-modal" type="text" name="ket_review" required class="form-control" placeholder="Keterangan Review" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="card-title text-center mt-5">Revisi Data Pemakalah</h5>
                         <div class="form-group mt-3 col-12">
                             <div class="row">
                                 <div class="form-group mt-3 col-12">
@@ -120,7 +191,7 @@
 
                         <div class="flex items-center mt-4 d-flex justify-content-end">
                             <button id="login-btn" type="submit" class="btn btn-success ms-3">
-                                <span id="btn-text">Edit Data</span>
+                                <span id="btn-text">Revisi Data</span>
                                 <div id="spinner" class="spinner-border spinner-border-sm d-none" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
@@ -138,8 +209,20 @@
         button.addEventListener('click', function() {
             const row = this.closest('tr');
             const orderId = row.getAttribute('data-id');
+            const abstrak = row.getAttribute('data-abstrak');
+            const metodePenelitian = row.getAttribute('data-metode_penelitian');
+            const pembahasan = row.getAttribute('data-pembahasan');
+            const kesimpulan = row.getAttribute('data-kesimpulan');
+            const plagiasiTurnitin = row.getAttribute('data-plagriasi_turnitin');
+            const ketReview = row.getAttribute('data-ket_review');
 
             document.getElementById('modal-id').value = orderId;
+            document.getElementById('abstrak-modal').value = abstrak;
+            document.getElementById('metode_penelitian-modal').value = metodePenelitian;
+            document.getElementById('pembahasan-modal').value = pembahasan;
+            document.getElementById('kesimpulan-modal').value = kesimpulan;
+            document.getElementById('plagriasi_turnitin-modal').value = plagiasiTurnitin;
+            document.getElementById('ket_review-modal').value = ketReview;
         });
     });
 

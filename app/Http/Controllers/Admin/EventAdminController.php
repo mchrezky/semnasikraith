@@ -143,4 +143,62 @@ class EventAdminController extends Controller
             return redirect()->back()->with('error', 'Error Request, Exception: ' . $e->getMessage());
         }
     }
+
+    public function reviewPemakalah($id)
+    {
+        $dataPemakalah = Event::select('event.*', 'event_list.nama as event_list_name', 'event_list.ket as event_list_ket', 'event_list.harga as event_list_harga', 'event_list.foto as event_list_foto', 'users.name as user_name', 'users.tipe_user as user_tipe_user', 'users.institusi_asal as user_institusi_asal')
+            ->join('users', 'event.id_user', '=', 'users.id')
+            ->join('event_list', 'event.event_list', '=', 'event_list.id')
+            ->where('event.id', $id)
+            ->first();
+
+        if (!$dataPemakalah) {
+            return redirect()->back()->with('error', 'Data Tidak Ditemukan');
+        }
+
+        $categories = Categories::all();
+
+        $data = [
+            'event' => $dataPemakalah,
+            'categories' => $categories
+        ];
+
+        return view('be-semnas.review-data-pemakalah')->with('data', $data);
+    }
+
+    public function reviewPemakalahSubmit(Request $request)
+    {
+        try {
+            if ($request->abstrak == null || $request->metode_penelitian == null || $request->pembahasan == null || $request->kesimpulan == null || $request->plagriasi_turnitin == null || $request->ket_review == null) {
+                $data = [
+                    'review' => "Selesai",
+                    'date_review' => date('Y-m-d H:i:s'),
+                    'review_by' => Auth::user()->id
+                ];
+            } else {
+                $data = [
+                    'review' => "Telah Direview",
+                    'abstrak' => $request->abstrak,
+                    'metode_penelitian' => $request->metode_penelitian,
+                    'pembahasan' => $request->pembahasan,
+                    'kesimpulan' => $request->kesimpulan,
+                    'plagriasi_turnitin' => $request->plagriasi_turnitin,
+                    'ket_review' => $request->ket_review,
+                    'date_review' => date('Y-m-d H:i:s'),
+                    'review_by' => Auth::user()->id
+                ];
+            }
+
+            $event = Event::findOrFail($request->id);
+            $update = $event->update($data);
+
+            if ($update) {
+                return redirect('/data-pemakalah')->with('success', 'Data reviewed successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update data.');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error Request, Exception: ' . $e->getMessage());
+        }
+    }
 }
