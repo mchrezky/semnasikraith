@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\EventAdminController;
 use App\Http\Controllers\Admin\PesertaController;
+use App\Http\Controllers\Admin\JadwalController;
+use App\Http\Controllers\Admin\BannerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);
@@ -58,6 +60,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-data-non-pemakalah/{id}', [EventAdminController::class, 'editNonPemakalah']);
     Route::post('/edit-non-pemakalah-submit', [EventAdminController::class, 'editNonPemakalahSubmit']);
     Route::get('/data-peserta', [PesertaController::class, 'index']);
+
+    Route::get('/master-jadwal', [JadwalController::class, 'index']);
+    Route::post('/edit-master-jadwal-submit', [JadwalController::class, 'update']);
+
+    Route::get('/master-banner', [BannerController::class, 'index']);
+    Route::post('/add-master-banner-submit', [BannerController::class, 'create']);
+    Route::post('/edit-master-banner-submit', [BannerController::class, 'update']);
+    Route::post('/delete-master-banner-submit', [BannerController::class, 'delete']);
 });
 
 require __DIR__ . '/auth.php';

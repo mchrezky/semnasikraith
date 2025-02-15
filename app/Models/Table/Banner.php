@@ -5,20 +5,22 @@ namespace App\Models\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Jadwal extends Model
+class Banner extends Model
 {
     use HasFactory;
 
     protected $connection = 'mysql';
-    protected $table = 'jadwal';
+    protected $table = 'banner';
     protected $primarykey = 'id';
-    public $timestamps = false;
 
     protected $fillable = [
         'id',
         'title',
-        'date_start',
-        'date_end',
-        'ket'
+        'foto',
+        'created_at',
+        'created_by',
+        'updated_at',
+        'updated_by',
+        'is_deleted'
     ];
 }

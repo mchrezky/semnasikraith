@@ -286,6 +286,27 @@
 
       <li class="nav-item">
         @php
+        $masterActive = Request::is('master-jadwal') || Request::is('master-banner');
+        @endphp
+        <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" data-bs-target="#master-jadwal-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="master-jadwal-nav" class="nav-content collapse {{ $masterActive ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{ url('/master-jadwal') }}" class="{{ Request::is('master-jadwal') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Master Jadwal</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url('/master-banner') }}" class="{{ Request::is('master-banner') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Master Banner</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        @php
         $pemakalahActive = Request::is('data-pemakalah') || Request::is('data-non-pemakalah');
         @endphp
         <a class="nav-link {{ $pemakalahActive ? '' : 'collapsed' }}" data-bs-target="#pemakalah-nav" data-bs-toggle="collapse" href="#">
