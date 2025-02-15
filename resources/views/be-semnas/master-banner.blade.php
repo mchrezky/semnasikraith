@@ -45,11 +45,11 @@
                                             <button type="button" class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">
                                                 Edit
                                             </button>
-                                            <form id="delete-form" action="{{ url('/delete-master-banner-submit') }}" method="POST" class="d-inline">
+                                            <form action="{{ url('/delete-master-banner-submit') }}" method="POST" class="delete-form d-inline">
                                                 @csrf
-                                                <input id="id" type="hidden" name="id" value="{{ $banner->id }}" required class="form-control" readonly>
-                                                <button type="button" class="btn btn-danger" id="delete-submit">
-                                                    <i class="fas fa-search"></i> Delete
+                                                <input type="hidden" name="id" value="{{ $banner->id }}" required readonly class="form-control">
+                                                <button type="button" class="btn btn-danger delete-submit" data-id="{{ $banner->id }}">
+                                                    <i class="fas fa-trash"></i> Delete
                                                 </button>
                                             </form>
                                         </td>
@@ -169,20 +169,23 @@
             btnText.textContent = "Loading...";
         });
 
-        document.getElementById('delete-submit').addEventListener('click', function(event) {
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: "Data banner akan dihapus.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form').submit();
-                }
+        document.querySelectorAll('.delete-submit').forEach(button => {
+            button.addEventListener('click', function(event) {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data banner akan dihapus.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     });

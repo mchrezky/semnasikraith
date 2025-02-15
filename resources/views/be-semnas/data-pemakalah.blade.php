@@ -68,11 +68,11 @@
                                             <a class="btn btn-info" href="{{ url('/review-data-pemakalah/' . $dataPemakalah->id) }}">
                                                 <i class="fas fa-search"></i> Review
                                             </a>
-                                            <form id="review-form" action="{{ url('/review-pemakalah-submit') }}" method="POST" class="d-inline">
+                                            <form action="{{ url('/review-pemakalah-submit') }}" method="POST" class="review-form d-inline">
                                                 @csrf
-                                                <input id="id" type="hidden" name="id" value="{{ $dataPemakalah->id }}" required class="form-control" readonly>
-                                                <button type="button" class="btn btn-success" id="confirm-submit">
-                                                    <i class="fas fa-search"></i> Selesai
+                                                <input type="hidden" name="id" value="{{ $dataPemakalah->id }}" required readonly class="form-control">
+                                                <button type="button" class="btn btn-success confirm-submit">
+                                                    <i class="fas fa-check"></i> Selesai
                                                 </button>
                                             </form>
                                             @endif
@@ -93,20 +93,23 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('confirm-submit').addEventListener('click', function(event) {
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: "Data akan dikirim untuk selesai direview.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Kirim!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('review-form').submit();
-                }
+        document.querySelectorAll('.confirm-submit').forEach(button => {
+            button.addEventListener('click', function(event) {
+                const form = this.closest('form'); // Ambil form terkait
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data akan dikirim untuk selesai direview.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Kirim!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     });
