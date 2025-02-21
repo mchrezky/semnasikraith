@@ -276,6 +276,23 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
+      @if(Auth::user()->role == 'Reviewer' )
+      <li class="nav-item">
+        @php
+        $pemakalahActive = Request::is('data-pemakalah') || Request::is('data-non-pemakalah');
+        @endphp
+        <a class="nav-link {{ $pemakalahActive ? '' : 'collapsed' }}" data-bs-target="#pemakalah-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Pemakalah</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="pemakalah-nav" class="nav-content collapse {{ $pemakalahActive ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{ url('/data-pemakalah') }}" class="{{ Request::is('data-pemakalah') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Data Pemakalah</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Components Nav -->
+      @else
 
       <li class="nav-item">
         <a class="nav-link {{ Request::is('dashboard-admin') ? '' : 'collapsed' }}" href="{{ url('/dashboard-admin') }}">
@@ -339,7 +356,7 @@
           <span>Data Peserta</span>
         </a>
       </li><!-- End Data Peserta Nav -->
-
+      @endif
     </ul>
   </aside><!-- End Sidebar -->
 

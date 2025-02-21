@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     //Data Event Pemakalah
 
     Route::get('/data-events', [EventController::class, 'events']);
+    Route::get('/download-file', [EventController::class, 'downloadFile']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

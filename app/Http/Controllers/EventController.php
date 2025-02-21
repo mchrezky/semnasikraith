@@ -319,4 +319,9 @@ class EventController extends Controller
             return redirect()->back()->with('error', 'Error Request, Exception Error ');
         }
     }
+
+    public function downloadFile()
+    {
+        return view('fe-semnas.download-file');
+    }
 }

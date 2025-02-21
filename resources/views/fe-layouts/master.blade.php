@@ -53,11 +53,12 @@
         <ul>
           <li><a href="{{ url('/') }}" class="active">Home</a></li>
           <li><a href="{{ url('/events') }}">Events</a></li>
-          <li><a href="{{ url('/cart-event') }}">My Order <span class="position-absolute top-20 start-100 translate-middle badge rounded-pill bg-danger">
+          <li><a href="{{ url('/cart-event') }}">My Order <span class="position-absolute top-20 translate-middle badge rounded-pill bg-danger" style="left: 95% !important;">
                 {{ $headerData['event'] }}
                 <span class="visually-hidden">unread messages</span>
               </span></a></li>
           @if(Auth::check())
+          <li><a target="_blank" href="https://chat.whatsapp.com/F4OChTWHsssLtwZj23Pwf4">Join WAG</a></li>
           <li class="dropdown">
             <a href="#">
               <i class="bi bi-person-circle px-3" style="font-size: 24px; transform: none !important;"></i> <!-- Profile icon -->
@@ -73,6 +74,7 @@
               @endif
               <li><a href="{{ url('/riwayat-pembayaran') }}">Riwayat Pembayaran</a></li>
               <li><a href="{{ url('/data-events') }}">Data Event</a></li>
+              <li><a href="{{ url('/download-file') }}">Download File</a></li>
               <li><!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                   @csrf
