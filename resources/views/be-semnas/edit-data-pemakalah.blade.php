@@ -185,6 +185,23 @@
                                 </div>
                             </div>
 
+                            <div class="form-group mt-3 col-12">
+                                <div class="border p-3 bg-light">
+                                    <label for="file_loa">File LOA (PDF Maksimal 10MB)</label>
+                                    @if (!empty($data['event']->file_loa))
+                                    <div class="d-flex align-items-center">
+                                        <a href="{{ asset('storage/file_loa/' . $data['event']->file_loa) }}"
+                                            target="_blank"
+                                            class="btn btn-outline-primary fw-bold px-4 py-2 shadow-sm rounded-pill">
+                                            <i class="fas fa-file-pdf me-2"></i> Lihat File
+                                        </a>
+                                    </div>
+                                    @endif
+                                    <input id="file_loa" type="file" name="file_loa" class="form-control mt-2" accept="application/pdf">
+                                    <small class="text-muted">Maksimal ukuran file: 10MB, hanya PDF</small>
+                                </div>
+                            </div>
+
                             <div class="flex items-center mt-4 d-flex justify-content-between">
                                 <a class="text-sm text-gray-600 hover:text-gray-900 rounded-md" href="{{ url('/data-pemakalah') }}">
                                     Kembali

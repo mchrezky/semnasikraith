@@ -38,6 +38,7 @@ class Event extends Model
         'category',
         'link_url_ojs',
         'file_ojs',
+        'file_loa',
         'konfirmasi_bayar',
         'date',
         'hibah',

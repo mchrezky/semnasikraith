@@ -56,24 +56,52 @@ class EventAdminController extends Controller
     public function editPemakalahSubmit(Request $request)
     {
         try {
-            $data = [
-                'title' => $request->title,
-                'writer1' => $request->writer1,
-                'email1' => $request->email1,
-                'writer2' => $request->writer2,
-                'email2' => $request->email2,
-                'writer3' => $request->writer3,
-                'email3' => $request->email3,
-                'writer4' => $request->writer4,
-                'email4' => $request->email4,
-                'writer5' => $request->writer5,
-                'email5' => $request->email5,
-                'writer6' => $request->writer6,
-                'email6' => $request->email6,
-                'writer7' => $request->writer7,
-                'email7' => $request->email7,
-                'category' => $request->category,
-            ];
+            $file = $request->file('file_loa');
+
+            if ($file) {
+                $filePathName = $request->id . '_' . Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_loa.pdf';
+
+                $file->storeAs('public/file_loa', $filePathName);
+
+                $data = [
+                    'title' => $request->title,
+                    'writer1' => $request->writer1,
+                    'email1' => $request->email1,
+                    'writer2' => $request->writer2,
+                    'email2' => $request->email2,
+                    'writer3' => $request->writer3,
+                    'email3' => $request->email3,
+                    'writer4' => $request->writer4,
+                    'email4' => $request->email4,
+                    'writer5' => $request->writer5,
+                    'email5' => $request->email5,
+                    'writer6' => $request->writer6,
+                    'email6' => $request->email6,
+                    'writer7' => $request->writer7,
+                    'email7' => $request->email7,
+                    'category' => $request->category,
+                    'file_loa' => $filePathName,
+                ];
+            } else {
+                $data = [
+                    'title' => $request->title,
+                    'writer1' => $request->writer1,
+                    'email1' => $request->email1,
+                    'writer2' => $request->writer2,
+                    'email2' => $request->email2,
+                    'writer3' => $request->writer3,
+                    'email3' => $request->email3,
+                    'writer4' => $request->writer4,
+                    'email4' => $request->email4,
+                    'writer5' => $request->writer5,
+                    'email5' => $request->email5,
+                    'writer6' => $request->writer6,
+                    'email6' => $request->email6,
+                    'writer7' => $request->writer7,
+                    'email7' => $request->email7,
+                    'category' => $request->category,
+                ];
+            }
 
             $event = Event::findOrFail($request->id);
             $update = $event->update($data);
