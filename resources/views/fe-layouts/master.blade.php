@@ -69,7 +69,7 @@
               <i class="bi bi-chevron-down toggle-dropdown"></i>
             </a>
             <ul>
-              @if(Auth::user()->role == 'Admin')
+              @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Reviewer')
               <li><a href="{{ url('/dashboard-admin') }}">Go to admin</a></li>
               @endif
               <li><a href="{{ url('/riwayat-pembayaran') }}">Riwayat Pembayaran</a></li>

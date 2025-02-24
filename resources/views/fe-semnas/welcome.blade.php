@@ -1,6 +1,14 @@
 @extends('fe-layouts.master')
 @section('content')
 <main class="main">
+
+  <!-- Section Title -->
+  <center>
+    <div data-aos="fade-up">
+      <div class="alert alert-info" role="alert"><strong>10 paper terbaik akan memperoleh : sertifikat best paper + akun SuperAI🔥🔥</strong>
+      </div>
+    </div><!-- End Section Title -->
+  </center>
   <!-- Hero Section -->
   <section id="hero" class="hero section dark-background">
 
@@ -141,4 +149,24 @@
   <!-- /About Section -->
   @endforeach
 </main>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Revisi Data Pemakalah</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(window).on('load', function() {
+    $('#editModal').modal('show');
+  });
+</script>
 @endsection
