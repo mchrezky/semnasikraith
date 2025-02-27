@@ -111,9 +111,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const row = this.closest('tr');
+        document.querySelector('.datatable').addEventListener('click', function(event) {
+            if (event.target.classList.contains('edit-btn')) {
+                const row = event.target.closest('tr');
                 const jadwalId = row.getAttribute('data-id');
                 const title = row.getAttribute('data-title');
                 const dateStart = row.getAttribute('data-date_start');
@@ -125,7 +125,7 @@
                 document.getElementById('date_start-modal').value = dateStart;
                 document.getElementById('date_end-modal').value = dateEnd;
                 document.getElementById('ket-modal').value = ket;
-            });
+            }
         });
 
         document.getElementById("insert-form").addEventListener("submit", function(event) {

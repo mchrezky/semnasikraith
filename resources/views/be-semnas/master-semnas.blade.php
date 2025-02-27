@@ -158,9 +158,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const row = this.closest('tr');
+        document.querySelector('.datatable').addEventListener('click', function(event) {
+            if (event.target.classList.contains('edit-btn')) {
+                const row = event.target.closest('tr');
                 const orderId = row.getAttribute('data-id');
                 const name = row.getAttribute('data-name');
                 const tema = row.getAttribute('data-tema');
@@ -170,7 +170,25 @@
                 document.getElementById('name-modal').value = name;
                 document.getElementById('tema-modal').value = tema;
                 document.getElementById('tanggal-modal').value = tanggal;
-            });
+            }
+
+            if (event.target.classList.contains('delete-submit')) {
+                const form = event.target.closest('form');
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data semnas akan dihapus.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            }
         });
 
         document.getElementById("insert-form").addEventListener("submit", function(event) {
@@ -191,26 +209,6 @@
             loginBtn.disabled = true;
             spinner.classList.remove("d-none");
             btnText.textContent = "Loading...";
-        });
-
-        document.querySelectorAll('.delete-submit').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const form = this.closest('form');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Data banner akan dihapus.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
         });
     });
 </script>

@@ -128,9 +128,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.view-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const row = this.closest('tr');
+        document.querySelector('.datatable').addEventListener('click', function(event) {
+            if (event.target.classList.contains('view-btn')) {
+                const row = event.target.closest('tr');
                 const orderJumlah = row.getAttribute('data-jumlah');
                 const orderNote = row.getAttribute('data-note');
                 const paymentProof = row.getAttribute('data-file') || 'tes';
@@ -140,7 +140,7 @@
                 document.getElementById('view-jumlah').textContent = 'Rp ' + new Intl.NumberFormat().format(orderJumlah);
                 document.getElementById('view-note').value = orderNote;
                 document.getElementById('view-bukti-pembayaran').src = paymentProof;
-            });
+            }
         });
 
         document.getElementById("insert-form").addEventListener("submit", function(event) {

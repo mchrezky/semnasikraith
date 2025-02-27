@@ -93,9 +93,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.confirm-submit').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const form = this.closest('form'); // Ambil form terkait
+        document.querySelector('.datatable').addEventListener('click', function(event) {
+            if (event.target.classList.contains('confirm-submit')) {
+                const form = event.target.closest('form');
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: "Data akan dikirim untuk selesai direview.",
@@ -110,7 +110,7 @@
                         form.submit();
                     }
                 });
-            });
+            }
         });
     });
 </script>

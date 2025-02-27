@@ -79,9 +79,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.to-reviewer-submit').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const form = this.closest('form');
+        document.querySelector('.datatable').addEventListener('click', function(event) {
+            if (event.target.classList.contains('to-reviewer-submit')) {
+                const form = event.target.closest('form');
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: "Peserta akan menjadi reviewer.",
@@ -96,12 +96,10 @@
                         form.submit();
                     }
                 });
-            });
-        });
+            }
 
-        document.querySelectorAll('.delete-reviewer-submit').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const form = this.closest('form');
+            if (event.target.classList.contains('delete-reviewer-submit')) {
+                const form = event.target.closest('form');
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: "Peserta akan dihapus dari reviewer.",
@@ -116,7 +114,7 @@
                         form.submit();
                     }
                 });
-            });
+            }
         });
     });
 </script>
