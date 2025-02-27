@@ -12,5 +12,14 @@ class MsSemnas extends Model
     protected $connection = 'mysql';
     protected $table = 'ms_semnas';
     protected $primarykey = 'id';
+    public $timestamps = false;
 
+    protected $fillable = [
+        'id',
+        'name',
+        'foto',
+        'tema',
+        'tanggal',
+        'status'
+    ];
 }

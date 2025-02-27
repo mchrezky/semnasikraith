@@ -303,7 +303,7 @@
 
       <li class="nav-item">
         @php
-        $masterActive = Request::is('master-jadwal') || Request::is('master-banner');
+        $masterActive = Request::is('master-jadwal') || Request::is('master-banner') || Request::is('master-event-type') || Request::is('master-semnas') || Request::is('master-event-list');
         @endphp
         <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" data-bs-target="#master-jadwal-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -317,6 +317,21 @@
           <li>
             <a href="{{ url('/master-banner') }}" class="{{ Request::is('master-banner') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Master Banner</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url('/master-semnas') }}" class="{{ Request::is('master-semnas') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Master Semnas</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url('/master-event-type') }}" class="{{ Request::is('master-event-type') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Master Event Type</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url('/master-event-list') }}" class="{{ Request::is('master-event-list') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Master Event List</span>
             </a>
           </li>
         </ul>

@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\EventAdminController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\EventTypeController;
+use App\Http\Controllers\Admin\MsSemnasController;
+use App\Http\Controllers\Admin\EventListController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);
@@ -60,7 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/data-non-pemakalah', [EventAdminController::class, 'index2']);
     Route::get('/edit-data-non-pemakalah/{id}', [EventAdminController::class, 'editNonPemakalah']);
     Route::post('/edit-non-pemakalah-submit', [EventAdminController::class, 'editNonPemakalahSubmit']);
+
     Route::get('/data-peserta', [PesertaController::class, 'index']);
+    Route::post('/data-peserta-to-reviewer-submit', [PesertaController::class, 'toReviewer']);
+    Route::post('/data-peserta-delete-reviewer-submit', [PesertaController::class, 'deleteReviewer']);
 
     Route::get('/master-jadwal', [JadwalController::class, 'index']);
     Route::post('/edit-master-jadwal-submit', [JadwalController::class, 'update']);
@@ -69,6 +75,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/add-master-banner-submit', [BannerController::class, 'create']);
     Route::post('/edit-master-banner-submit', [BannerController::class, 'update']);
     Route::post('/delete-master-banner-submit', [BannerController::class, 'delete']);
+
+    Route::get('/master-event-type', [EventTypeController::class, 'index']);
+    Route::post('/add-master-event-type-submit', [EventTypeController::class, 'create']);
+    Route::post('/edit-master-event-type-submit', [EventTypeController::class, 'update']);
+    Route::post('/delete-master-event-type-submit', [EventTypeController::class, 'delete']);
+
+    Route::get('/master-semnas', [MsSemnasController::class, 'index']);
+    Route::post('/add-master-semnas-submit', [MsSemnasController::class, 'create']);
+    Route::post('/edit-master-semnas-submit', [MsSemnasController::class, 'update']);
+    Route::post('/delete-master-semnas-submit', [MsSemnasController::class, 'delete']);
+
+    Route::get('/master-event-list', [EventListController::class, 'index']);
+    Route::post('/add-master-event-list-submit', [EventListController::class, 'create']);
+    Route::post('/edit-master-event-list-submit', [EventListController::class, 'update']);
+    Route::post('/delete-master-event-list-submit', [EventListController::class, 'delete']);
 });
 
 require __DIR__ . '/auth.php';

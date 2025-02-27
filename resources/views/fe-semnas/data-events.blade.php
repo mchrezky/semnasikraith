@@ -24,7 +24,7 @@
                         </thead>
                         <tbody>
                             @foreach ($data['event'] as $index => $event)
-                            <tr class="align-middle" data-id="{{ $event->id }}" data-abstrak="{{ $event->abstrak }}" data-metode_penelitian="{{ $event->metode_penelitian }}" data-pembahasan="{{ $event->pembahasan }}" data-kesimpulan="{{ $event->kesimpulan }}" data-plagriasi_turnitin="{{ $event->plagriasi_turnitin }}" data-ket_review="{{ $event->ket_review }}">
+                            <tr class="align-middle" data-id="{{ $event->id }}" data-abstrak="{{ $event->abstrak }}" data-metode_penelitian="{{ $event->metode_penelitian }}" data-pembahasan="{{ $event->pembahasan }}" data-kesimpulan="{{ $event->kesimpulan }}" data-plagriasi_turnitin="{{ $event->plagriasi_turnitin }}" data-ket_review="{{ $event->ket_review }}" data-file_loa="{{ $event->file_loa }}">
                                 <td style="text-align: center;">{{ $index + 1 }}</td>
                                 <td>{{ $event->nama }}</td>
                                 <td>{{ $event->title }}</td>
@@ -44,7 +44,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($event->review == 'Telah Direview')
+                                    @if ($event->review == 'Baru' || $event->review == 'Telah Direview')
                                     <button type="button" class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">
                                         Edit
                                     </button>
@@ -147,6 +147,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group mt-3 col-12">
+                            <div class="border p-3 bg-light">
+                                <label for="file_loa">File LOA</label>
+                                <div class="d-flex align-items-center">
+                                    <a id="file_loa-modal" href="#"
+                                        target="_blank"
+                                        class="btn btn-outline-primary fw-bold px-4 py-2 shadow-sm rounded-pill">
+                                        <i class="fas fa-file-pdf me-2"></i> Lihat File
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <h5 class="card-title text-center mt-5">Revisi Data Pemakalah</h5>
                         <div class="form-group mt-3 col-12">
                             <div class="row">
@@ -215,6 +228,7 @@
             const kesimpulan = row.getAttribute('data-kesimpulan');
             const plagiasiTurnitin = row.getAttribute('data-plagriasi_turnitin');
             const ketReview = row.getAttribute('data-ket_review');
+            const fileLoa = row.getAttribute('data-file_loa');
 
             document.getElementById('modal-id').value = orderId;
             document.getElementById('abstrak-modal').value = abstrak;
@@ -223,6 +237,16 @@
             document.getElementById('kesimpulan-modal').value = kesimpulan;
             document.getElementById('plagriasi_turnitin-modal').value = plagiasiTurnitin;
             document.getElementById('ket_review-modal').value = ketReview;
+            const fileLoaUrl = "{{ asset('storage/file_loa/') }}/" + fileLoa;
+
+            if (fileLoa) {
+                document.getElementById('file_loa-modal').href = fileLoaUrl;
+                document.getElementById('file_loa-modal').textContent = 'Lihat File';
+            } else {
+                document.getElementById('file_loa-modal').href = '#';
+                document.getElementById('file_loa-modal').textContent = 'File Belum Diupload';
+                document.getElementById('file_loa-modal').classList.add('disabled');
+            }
         });
     });
 

@@ -36,7 +36,7 @@
                                 <td>{{ $order->tgl_bayar }}</td>
                                 <td>{{ $order->status == 1 ? 'Pending' : ($order->status == 2 ? 'Dibayar' : ($order->status == 3 ? 'Berhasil Dibayar' : 'Status Tidak Dikenal')) }}</td>
                                 <td>
-                                    @if ($order->status == 2)
+                                    @if ($order->status == 2 || $order->status == 3)
                                     <button type="button" class="btn btn-info view-btn" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="bi bi-eye"></i> View</button>
                                     @else
                                     <button type="button" class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>

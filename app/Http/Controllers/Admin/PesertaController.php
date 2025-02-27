@@ -25,4 +25,44 @@ class PesertaController extends Controller
 
         return view('be-semnas.data-peserta')->with('data', $data);
     }
+
+    public function toReviewer(Request $request)
+    {
+        try {
+            $data = [
+                'role' => "Reviewer",
+            ];
+
+            $user = User::findOrFail($request->id);
+            $update = $user->update($data);
+
+            if ($update) {
+                return redirect('/data-peserta')->with('success', 'Data updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update data.');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error Request, Exception: ' . $e->getMessage());
+        }
+    }
+
+    public function deleteReviewer(Request $request)
+    {
+        try {
+            $data = [
+                'role' => "Guest",
+            ];
+
+            $user = User::findOrFail($request->id);
+            $update = $user->update($data);
+
+            if ($update) {
+                return redirect('/data-peserta')->with('success', 'Data updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update data.');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error Request, Exception: ' . $e->getMessage());
+        }
+    }
 }
