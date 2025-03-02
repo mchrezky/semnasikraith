@@ -45,12 +45,19 @@
                                         <td>{{ $dataPeserta->role }}</td>
                                         <td>{{ $dataPeserta->institusi_asal }}</td>
                                         <td>
+                                            <form action="{{ url('/data-peserta-to-reset-submit') }}" method="POST" class="delete-form d-inline">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
+                                                <button type="button" class="btn btn-primary to-reset-submit" data-id="{{ $dataPeserta->id }}">
+                                                    <i class="bi bi-key-fill"></i>
+                                                </button>
+                                            </form>
                                             @if($dataPeserta->role == "Guest")
                                             <form action="{{ url('/data-peserta-to-reviewer-submit') }}" method="POST" class="delete-form d-inline">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
                                                 <button type="button" class="btn btn-warning to-reviewer-submit" data-id="{{ $dataPeserta->id }}">
-                                                    Ubah ke Reviewer
+                                                    <i class="bi bi-people"></i>
                                                 </button>
                                             </form>
                                             @elseif($dataPeserta->role == "Reviewer")
@@ -58,7 +65,7 @@
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
                                                 <button type="button" class="btn btn-danger delete-reviewer-submit" data-id="{{ $dataPeserta->id }}">
-                                                    Hapus menjadi Reviewer
+                                                    <i class="bi-person-workspace"></i>
                                                 </button>
                                             </form>
                                             @endif
@@ -103,6 +110,24 @@
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: "Peserta akan dihapus dari reviewer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            }
+
+            if (event.target.classList.contains('to-reset-submit')) {
+                const form = event.target.closest('form');
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Akun Peserta akan di Reset Password.",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

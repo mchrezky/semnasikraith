@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/edit-non-pemakalah-submit', [EventAdminController::class, 'editNonPemakalahSubmit']);
 
     Route::get('/data-peserta', [PesertaController::class, 'index']);
+    Route::post('/data-peserta-to-reset-submit', [PesertaController::class, 'toReset']);
     Route::post('/data-peserta-to-reviewer-submit', [PesertaController::class, 'toReviewer']);
     Route::post('/data-peserta-delete-reviewer-submit', [PesertaController::class, 'deleteReviewer']);
 

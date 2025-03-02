@@ -27,13 +27,15 @@
                                         <th>#</th>
                                         <th>Seminar Name</th>
                                         <th>Title</th>
-                                        <th>Created By</th>
-                                        <th>User Type</th>
-                                        <th>Institusi Asal</th>
-                                        <th>Created At</th>
+                                        <th>Penulis</th>
+                                        </th>
+                                        <th>Type</th>
+                                        <th>Institusi</th>
+                                        <th>Submit At</th>
+                                        <th>Loa</th>
                                         <th>Status</th>
                                         <th>Status Review</th>
-                                        <th>Opsi</th>
+                                        <th width="150">Opsi / Review</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,10 +44,11 @@
                                         <td style="text-align: center;">{{ $index + 1 }}</td>
                                         <td>{{ $dataPemakalah->seminar_name }}</td>
                                         <td>{{ $dataPemakalah->title }}</td>
-                                        <td>{{ $dataPemakalah->user_name }}</td>
+                                        <td>{{ $dataPemakalah->writer1 }}</td>
                                         <td>{{ $dataPemakalah->user_tipe_user }}</td>
                                         <td>{{ $dataPemakalah->user_institusi_asal }}</td>
                                         <td>{{ $dataPemakalah->created_at }}</td>
+                                        <td>{{ $dataPemakalah->file_loa ? 'OK' : '-' }}</td>
                                         <td>{{ $dataPemakalah->konfirmasi_bayar == 1 ? 'Pending' : ($dataPemakalah->konfirmasi_bayar == 2 ? 'Dibayar' : ($dataPemakalah->konfirmasi_bayar == 3 ? 'Berhasil Dikonfirmasi' : 'Status Tidak Dikenal')) }}</td>
                                         <td>
                                             @if ($dataPemakalah->review == 'Baru')
@@ -61,20 +64,23 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($dataPemakalah->review == 'Telah Direvisi' || $dataPemakalah->review == 'Baru')
+                                            @if(Auth::user()->role == 'Admin' )
                                             <a class="btn btn-warning me-2" href="{{ url('/edit-data-pemakalah/' . $dataPemakalah->id) }}">
-                                                <i class="fas fa-edit"></i> Edit
+                                                <i class="bi bi-pencil-square"></i>
                                             </a>
+                                            @else
+                                            @if ($dataPemakalah->review == 'Telah Direvisi' || $dataPemakalah->review == 'Baru')
                                             <a class="btn btn-info" href="{{ url('/review-data-pemakalah/' . $dataPemakalah->id) }}">
-                                                <i class="fas fa-search"></i> Review
+                                                <i class="bi bi-pencil-square"></i>
                                             </a>
                                             <form action="{{ url('/review-pemakalah-submit') }}" method="POST" class="review-form d-inline">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $dataPemakalah->id }}" required readonly class="form-control">
                                                 <button type="button" class="btn btn-success confirm-submit">
-                                                    <i class="fas fa-check"></i> Selesai
+                                                    <i class="bi bi-check"></i>
                                                 </button>
                                             </form>
+                                            @endif
                                             @endif
                                         </td>
                                     </tr>

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Exception;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class PesertaController extends Controller
@@ -24,6 +25,26 @@ class PesertaController extends Controller
         ];
 
         return view('be-semnas.data-peserta')->with('data', $data);
+    }
+
+    public function toReset(Request $request)
+    {
+        try {
+            $user = User::findOrFail($request->id);
+            $data = [
+                'password' => Hash::make($user->email . date('Y')),
+            ];
+
+            $update = $user->update($data);
+
+            if ($update) {
+                return redirect('/data-peserta')->with('success', 'Data updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update data.');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error Request, Exception: ' . $e->getMessage());
+        }
     }
 
     public function toReviewer(Request $request)
