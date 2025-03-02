@@ -18,7 +18,39 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Data Pemakalah</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">Data Pemakalah</h5>
+                            <div class="filter">
+                                <a href="#" class="btn btn-success" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-file-earmark-excel"></i> Export Excel
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-item">
+                                        <form action="{{ url('/export-data-pemakalah') }}" method="GET" id="filterForm">
+                                            <div class="form-group mt-3 col-12">
+                                                <label for="date">Date
+                                                </label>
+                                                <input type="text" id="date-range" name="date" class="form-control" placeholder="Select Date Range">
+                                            </div>
+                                            <div class="form-group mt-3 col-12">
+                                                <label for="semnas_id">Jenis Semnas
+                                                </label>
+                                                <select id="semnas_id" name="semnas_id" class="form-control" onchange="validateForm()">
+                                                    <option value="" disabled selected>Select Semnas</option>
+                                                    @foreach ($data['msSemnas'] as $msSemnas)
+                                                    <option value="{{ $msSemnas->id }}">{{ $msSemnas->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <!-- Tombol export hanya aktif jika form terisi -->
+                                            <div class="d-flex justify-content-end mt-3">
+                                                <button type="submit" id="exportButton" class="btn btn-success">Export Data</button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -117,6 +149,22 @@
                     }
                 });
             }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inisialisasi Flatpickr dengan mode range
+        flatpickr("#date-range", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            disable: [
+                function(date) {
+                    // Disable every multiple of 8 (misalnya, hari yang kelipatan 8)
+                    return !(date.getDate() % 8);
+                }
+            ]
         });
     });
 </script>

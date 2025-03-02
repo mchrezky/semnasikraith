@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/konfirmasi-pembayaran', [KonfirmasiPembayaranController::class, 'index']);
     Route::post('/konfirmasi-pembayaran-submit', [KonfirmasiPembayaranController::class, 'update']);
     Route::get('/data-pemakalah', [EventAdminController::class, 'index']);
+    Route::get('/export-data-pemakalah', [EventAdminController::class, 'exportDataPemakalahToExcel']);
     Route::get('/edit-data-pemakalah/{id}', [EventAdminController::class, 'editPemakalah']);
     Route::post('/edit-pemakalah-submit', [EventAdminController::class, 'editPemakalahSubmit']);
     Route::get('/review-data-pemakalah/{id}', [EventAdminController::class, 'reviewPemakalah']);

@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('layout-backend/assets/css/style.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -407,6 +408,7 @@
   <!-- Template Main JS File -->
   <script src="{{ asset('layout-backend/assets/js/main.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   @if(session('success'))
   <script>

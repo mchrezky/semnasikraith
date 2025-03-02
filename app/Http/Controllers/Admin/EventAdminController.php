@@ -14,6 +14,9 @@ use App\Models\Table\Pembayaran;
 use App\Models\Table\Event;
 use App\Models\Table\EventNon;
 use App\Models\Table\Categories;
+use App\Exports\EventExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Table\MsSemnas;
 
 class EventAdminController extends Controller
 {
@@ -24,11 +27,22 @@ class EventAdminController extends Controller
             ->join('users', 'event.id_user', '=', 'users.id')
             ->get();
 
+        $msSemnas = MsSemnas::where('status', 1)->get();
+
         $data = [
-            'dataPemakalah' => $dataPemakalah
+            'dataPemakalah' => $dataPemakalah,
+            'msSemnas' => $msSemnas
         ];
 
         return view('be-semnas.data-pemakalah')->with('data', $data);
+    }
+
+    public function exportDataPemakalahToExcel(Request $request)
+    {
+        $date = $request->get('date');
+        $semnasId = $request->get('semnas_id');
+
+        return Excel::download(new EventExport($date, $semnasId), 'data_pemakalah.xlsx');
     }
 
     public function editPemakalah($id)
