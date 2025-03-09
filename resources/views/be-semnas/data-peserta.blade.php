@@ -45,30 +45,32 @@
                                         <td>{{ $dataPeserta->role }}</td>
                                         <td>{{ $dataPeserta->institusi_asal }}</td>
                                         <td>
-                                            <form action="{{ url('/data-peserta-to-reset-submit') }}" method="POST" class="delete-form d-inline">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
-                                                <button type="button" class="btn btn-primary to-reset-submit" data-id="{{ $dataPeserta->id }}">
-                                                    <i class="bi bi-key-fill"></i>
-                                                </button>
-                                            </form>
-                                            @if($dataPeserta->role == "Guest")
-                                            <form action="{{ url('/data-peserta-to-reviewer-submit') }}" method="POST" class="delete-form d-inline">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
-                                                <button type="button" class="btn btn-warning to-reviewer-submit" data-id="{{ $dataPeserta->id }}">
-                                                    <i class="bi bi-people"></i>
-                                                </button>
-                                            </form>
-                                            @elseif($dataPeserta->role == "Reviewer")
-                                            <form action="{{ url('/data-peserta-delete-reviewer-submit') }}" method="POST" class="delete-form d-inline">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
-                                                <button type="button" class="btn btn-danger delete-reviewer-submit" data-id="{{ $dataPeserta->id }}">
-                                                    <i class="bi-person-workspace"></i>
-                                                </button>
-                                            </form>
-                                            @endif
+                                            <div class="d-flex justify-content-between gap-2">
+                                                <form action="{{ url('/data-peserta-to-reset-submit') }}" method="POST" class="delete-form d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
+                                                    <button type="button" class="btn btn-primary p-1" data-id="{{ $dataPeserta->id }}">
+                                                        <i class="bi bi-key-fill to-reset-submit fs-4"></i>
+                                                    </button>
+                                                </form>
+                                                @if($dataPeserta->role == "Guest")
+                                                <form action="{{ url('/data-peserta-to-reviewer-submit') }}" method="POST" class="delete-form d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
+                                                    <button type="button" class="btn btn-warning p-1" data-id="{{ $dataPeserta->id }}">
+                                                        <i class="bi bi-people to-reviewer-submit fs-4"></i>
+                                                    </button>
+                                                </form>
+                                                @elseif($dataPeserta->role == "Reviewer")
+                                                <form action="{{ url('/data-peserta-delete-reviewer-submit') }}" method="POST" class="delete-form d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $dataPeserta->id }}" required readonly class="form-control">
+                                                    <button type="button" class="btn btn-danger p-1" data-id="{{ $dataPeserta->id }}">
+                                                        <i class="bi-person-workspace delete-reviewer-submit fs-4"></i>
+                                                    </button>
+                                                </form>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach
