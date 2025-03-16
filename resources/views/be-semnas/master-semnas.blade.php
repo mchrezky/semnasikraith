@@ -32,6 +32,7 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Foto</th>
+                                        <th>Sertifikat</th>
                                         <th>Tema</th>
                                         <th>Tanggal</th>
                                         <th>Opsi</th>
@@ -42,7 +43,8 @@
                                     <tr class="align-middle" data-id="{{ $msSemnas->id }}" data-name="{{ $msSemnas->name }}" data-tema="{{ $msSemnas->tema }}" data-tanggal="{{ $msSemnas->tanggal }}">
                                         <td style="text-align: center;">{{ $index + 1 }}</td>
                                         <td>{{ $msSemnas->name }}</td>
-                                        <td><img src="{{ asset('storage/file_ms_semnas/' . $msSemnas->foto) }}" alt="Bukti Pembayaran" class="img-thumbnail" style="max-width: 100px;"></td>
+                                        <td><img src="{{ asset('storage/file_ms_semnas/' . $msSemnas->foto) }}" alt="Foto Semnas" class="img-thumbnail" style="max-width: 100px;"></td>
+                                        <td><img src="{{ asset('storage/file_ms_semnas/' . $msSemnas->file_sertifikat) }}" alt="File Sertifikat" class="img-thumbnail" style="max-width: 100px;"></td>
                                         <td>{{ $msSemnas->tema }}</td>
                                         <td>{{ $msSemnas->tanggal }}</td>
                                         <td>
@@ -89,6 +91,11 @@
                                 accept="image/png, image/jpeg" required>
                         </div>
                         <div class="form-group mt-3 col-12">
+                            <label for="file_sertifikat">File Sertifikat <span class="text-danger">*</span></label>
+                            <input id="file_sertifikat" type="file" name="file_sertifikat" class="form-control"
+                                accept="image/png, image/jpeg" required>
+                        </div>
+                        <div class="form-group mt-3 col-12">
                             <label for="tema">Tema <span class="text-danger">*</span></label>
                             <input id="tema" type="text" name="tema" required class="form-control" placeholder="Tema">
                         </div>
@@ -129,6 +136,11 @@
                         <div class="form-group mt-3 col-12">
                             <label for="file_ms_semnas">Foto Semnas</label>
                             <input id="file_ms_semnas" type="file" name="file_ms_semnas" class="form-control"
+                                accept="image/png, image/jpeg">
+                        </div>
+                        <div class="form-group mt-3 col-12">
+                            <label for="file_sertifikat">File Sertifikat</label>
+                            <input id="file_sertifikat" type="file" name="file_sertifikat" class="form-control"
                                 accept="image/png, image/jpeg">
                         </div>
                         <div class="form-group mt-3 col-12">

@@ -13,6 +13,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Table\Pembayaran;
 use App\Models\Table\Event;
 use App\Models\Table\EventNon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\KonfirmasiPembayaranExport;
 
 class KonfirmasiPembayaranController extends Controller
 {
@@ -57,5 +59,13 @@ class KonfirmasiPembayaranController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function exportKonfirmasiPembayaranToExcel(Request $request)
+    {
+        $date = $request->get('date');
+        $semnasId = $request->get('semnas_id');
+
+        return Excel::download(new KonfirmasiPembayaranExport($date), 'data_konfirmasi_pembayaran.xlsx');
     }
 }

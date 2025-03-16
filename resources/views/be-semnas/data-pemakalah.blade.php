@@ -114,6 +114,11 @@
                                             </form>
                                             @endif
                                             @endif
+                                            @if($dataPemakalah->konfirmasi_bayar == 3)
+                                            <a class="btn btn-primary" target="_blank" href="{{ url('/download-sertifikat-data-pemakalah/' . $dataPemakalah->id) }}">
+                                                <i class="bi bi-download"></i>
+                                            </a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
@@ -159,12 +164,6 @@
         flatpickr("#date-range", {
             mode: "range",
             dateFormat: "Y-m-d",
-            disable: [
-                function(date) {
-                    // Disable every multiple of 8 (misalnya, hari yang kelipatan 8)
-                    return !(date.getDate() % 8);
-                }
-            ]
         });
     });
 </script>

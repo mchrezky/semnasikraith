@@ -17,6 +17,7 @@ use App\Models\Table\Categories;
 use App\Exports\EventExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Table\MsSemnas;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class EventAdminController extends Controller
 {
@@ -43,6 +44,27 @@ class EventAdminController extends Controller
         $semnasId = $request->get('semnas_id');
 
         return Excel::download(new EventExport($date, $semnasId), 'data_pemakalah.xlsx');
+    }
+
+    public function downloadSertifikatDataPemakalah($id)
+    {
+
+        $dataPemakalah = Event::select('event.*', 'event_list.nama as event_list_name', 'event_list.ket as event_list_ket', 'event_list.harga as event_list_harga', 'event_list.foto as event_list_foto', 'users.name as user_name', 'users.tipe_user as user_tipe_user', 'users.institusi_asal as user_institusi_asal', 'ms_semnas.file_sertifikat as ms_semnas_file_sertifikat')
+            ->join('users', 'event.id_user', '=', 'users.id')
+            ->join('event_list', 'event.event_list', '=', 'event_list.id')
+            ->join('ms_semnas', 'event_list.semnas_id', '=', 'ms_semnas.id')
+            ->where('event.id', $id)
+            ->first();
+
+        $name = 'sertifikat_pemakalah_' . $dataPemakalah->title . '_' . date('d-m-Y') . '.pdf';
+
+        $data = [
+            'dataPemakalah' => $dataPemakalah,
+        ];
+
+        $pdf = PDF::loadview('be-semnas.print-sertifikat-pemakalah', $data)->setPaper('a4', 'landscape');
+        // return $pdf->download($name); // auto download
+        return $pdf->stream($name);
     }
 
     public function editPemakalah($id)

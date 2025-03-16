@@ -18,6 +18,7 @@ class MsSemnas extends Model
         'id',
         'name',
         'foto',
+        'file_sertifikat',
         'tema',
         'tanggal',
         'status'

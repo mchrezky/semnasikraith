@@ -32,16 +32,21 @@ class MsSemnasController extends Controller
         try {
 
             $file = $request->file('file_ms_semnas');
+            $file2 = $request->file('file_sertifikat');
 
             $extension = $file->getClientOriginalExtension();
+            $extension2 = $file2->getClientOriginalExtension();
 
             $filePathName = Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_ms_semnas.' . $extension;
+            $filePathName2 = Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_sertifikat.' . $extension2;
 
             $file->storeAs('public/file_ms_semnas', $filePathName);
+            $file2->storeAs('public/file_ms_semnas', $filePathName2);
 
             $data = [
                 'name' => $request->name,
                 'foto' => $filePathName,
+                'file_sertifikat' => $filePathName2,
                 'tema' => $request->tema,
                 'tanggal' => $request->tanggal,
             ];
@@ -61,28 +66,30 @@ class MsSemnasController extends Controller
     public function update(Request $request)
     {
         try {
+            $data = [
+                'name' => $request->name,
+                'tema' => $request->tema,
+                'tanggal' => $request->tanggal,
+            ];
 
-            if ($request->file('file_ms_semnas') != null) {
+            // Cek apakah file_ms_semnas diunggah
+            if ($request->hasFile('file_ms_semnas')) {
                 $file = $request->file('file_ms_semnas');
-
                 $extension = $file->getClientOriginalExtension();
-
                 $filePathName = $request->id . '_' . Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_ms_semnas.' . $extension;
-
                 $file->storeAs('public/file_ms_semnas', $filePathName);
 
-                $data = [
-                    'name' => $request->name,
-                    'foto' => $filePathName,
-                    'tema' => $request->tema,
-                    'tanggal' => $request->tanggal,
-                ];
-            } else {
-                $data = [
-                    'name' => $request->name,
-                    'tema' => $request->tema,
-                    'tanggal' => $request->tanggal,
-                ];
+                $data['foto'] = $filePathName;
+            }
+
+            // Cek apakah file_sertifikat diunggah
+            if ($request->hasFile('file_sertifikat')) {
+                $file2 = $request->file('file_sertifikat');
+                $extension2 = $file2->getClientOriginalExtension();
+                $filePathName2 = $request->id . '_' . Auth::user()->id . '_' . now()->format('Ymd_His') . '_file_sertifikat.' . $extension2;
+                $file2->storeAs('public/file_ms_semnas', $filePathName2);
+
+                $data['file_sertifikat'] = $filePathName2;
             }
 
             $msSemnas = MsSemnas::findOrFail($request->id);

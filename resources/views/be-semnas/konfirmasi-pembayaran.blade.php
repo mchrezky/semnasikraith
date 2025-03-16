@@ -18,7 +18,29 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Konfirmasi Pembayaran</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">Konfirmasi Pembayaran</h5>
+                            <div class="filter">
+                                <a href="#" class="btn btn-success" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-file-earmark-excel"></i> Export Excel
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-item">
+                                        <form action="{{ url('/export-konfirmasi-pembayaran') }}" method="GET" id="filterForm">
+                                            <div class="form-group mt-3 col-12">
+                                                <label for="date">Date
+                                                </label>
+                                                <input type="text" id="date-range" name="date" class="form-control" placeholder="Select Date Range">
+                                            </div>
+                                            <!-- Tombol export hanya aktif jika form terisi -->
+                                            <div class="d-flex justify-content-end mt-3">
+                                                <button type="submit" id="exportButton" class="btn btn-success">Export Data</button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -151,6 +173,15 @@
             loginBtn.disabled = true;
             spinner.classList.remove("d-none");
             btnText.textContent = "Loading...";
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inisialisasi Flatpickr dengan mode range
+        flatpickr("#date-range", {
+            mode: "range",
+            dateFormat: "Y-m-d",
         });
     });
 </script>
