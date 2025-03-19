@@ -332,7 +332,7 @@
                 },
                 {
                     select: 1, // Kedua, misalnya, kolom 1
-                    sortSequence: ["desc"],
+                    sortSequence: ["desc", "asc"],
                 },
             ],
         });
