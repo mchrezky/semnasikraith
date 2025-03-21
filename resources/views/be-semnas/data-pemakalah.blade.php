@@ -98,25 +98,25 @@
                                         <td>
                                             @if(Auth::user()->role == 'Admin' )
                                             <a class="btn btn-warning me-2" href="{{ url('/edit-data-pemakalah/' . $dataPemakalah->id) }}">
-                                                <i class="bi bi-pencil-square"></i>
+                                                <i class="bi bi-pencil-square fs-5"></i>
                                             </a>
                                             @else
                                             @if ($dataPemakalah->review == 'Telah Direvisi' || $dataPemakalah->review == 'Baru')
                                             <a class="btn btn-info" href="{{ url('/review-data-pemakalah/' . $dataPemakalah->id) }}">
-                                                <i class="bi bi-pencil-square"></i>
+                                                <i class="bi bi-pencil-square fs-5"></i>
                                             </a>
                                             <form action="{{ url('/review-pemakalah-submit') }}" method="POST" class="review-form d-inline">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $dataPemakalah->id }}" required readonly class="form-control">
-                                                <button type="button" class="btn btn-success confirm-submit">
-                                                    <i class="bi bi-check"></i>
+                                                <button type="button" class="btn btn-success">
+                                                    <i class="bi bi-check fs-5 confirm-submit"></i>
                                                 </button>
                                             </form>
                                             @endif
                                             @endif
                                             @if($dataPemakalah->konfirmasi_bayar == 3)
                                             <a class="btn btn-primary" target="_blank" href="{{ url('/download-sertifikat-data-pemakalah/' . $dataPemakalah->id) }}">
-                                                <i class="bi bi-download"></i>
+                                                <i class="bi bi-download fs-5"></i>
                                             </a>
                                             @endif
                                         </td>

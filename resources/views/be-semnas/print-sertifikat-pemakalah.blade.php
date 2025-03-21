@@ -70,20 +70,17 @@
 </head>
 
 <body>
-
+    @foreach($writers as $writer)
     <div class="sertifikat-container">
         <div class="sertifikat-bg"></div>
-
         <div class="nama-container">
-            <h1>{{ $dataPemakalah['writer1'] }}</h1>
+            <h1>{{ $writer }}</h1>
         </div>
-
         <div class="judul-container">
-            <p class="judul">{{ $dataPemakalah['title'] }}</p>
+            <p class="judul">{{ $dataPemakalah->title }}</p>
         </div>
-
     </div>
-
+    @endforeach
 </body>
 
 </html>

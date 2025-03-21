@@ -45,9 +45,14 @@
                                 </td>
                                 <td>
                                     @if ($event->review == 'Baru' || $event->review == 'Telah Direview')
-                                    <button type="button" class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">
-                                        Edit
+                                    <button type="button" title="Edit" class="btn btn-warning">
+                                        <i class="bi bi-pencil text-white edit-btn fs-5" data-bs-toggle="modal" data-bs-target="#editModal"></i>
                                     </button>
+                                    @endif
+                                    @if($event->konfirmasi_bayar == 3)
+                                    <a class="btn btn-success" title="Download" target="_blank" href="{{ url('/download-sertifikat-data-pemakalah/' . $event->id) }}">
+                                        <i class="bi bi-download fs-5"></i>
+                                    </a>
                                     @endif
                                 </td>
                             </tr>
@@ -66,6 +71,7 @@
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Status</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,6 +82,13 @@
                                 <td>{{ $eventnon->nama_lengkap }}</td>
                                 <td>{{ $eventnon->date }}</td>
                                 <td>{{ $eventnon->konfirmasi_bayar == 1 ? 'Pending' : ($eventnon->konfirmasi_bayar == 2 ? 'Dibayar' : ($eventnon->konfirmasi_bayar == 3 ? 'Berhasil Dikonfirmasi' : 'Selesai')) }}</td>
+                                <td>
+                                    @if($eventnon->konfirmasi_bayar == 3)
+                                    <a class="btn btn-success" title="Download" target="_blank" href="{{ url('/download-sertifikat-data-non-pemakalah/' . $eventnon->id) }}">
+                                        <i class="bi bi-download fs-5"></i>
+                                    </a>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
