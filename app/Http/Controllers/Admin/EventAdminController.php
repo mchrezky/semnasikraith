@@ -130,7 +130,7 @@ class EventAdminController extends Controller
             'writers' => $writers
         ])->setPaper('a4', 'landscape');
 
-        $filename = 'sertifikat_non_pemakalah_' . $dataPemakalah->title . '_' . date('d-m-Y') . '.pdf';
+        $filename = 'sertifikat_non_pemakalah_' . $dataPemakalah->nama_lengkap . '_' . date('d-m-Y') . '.pdf';
 
         return $pdf->download($filename);
         // return $pdf->stream($filename); // Untuk menampilkan di browser
