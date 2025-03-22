@@ -49,7 +49,7 @@
                                         <i class="bi bi-pencil text-white edit-btn fs-5" data-bs-toggle="modal" data-bs-target="#editModal"></i>
                                     </button>
                                     @endif
-                                    @if($event->konfirmasi_bayar == 3)
+                                    @if($event->konfirmasi_bayar == 3 && \Carbon\Carbon::parse($event->tanggal)->gte(\Carbon\Carbon::parse('2025-03-22 15:00:00')))
                                     <a class="btn btn-success" title="Download" target="_blank" href="{{ url('/download-sertifikat-data-pemakalah/' . $event->id) }}">
                                         <i class="bi bi-download fs-5"></i>
                                     </a>
@@ -83,7 +83,7 @@
                                 <td>{{ $eventnon->date }}</td>
                                 <td>{{ $eventnon->konfirmasi_bayar == 1 ? 'Pending' : ($eventnon->konfirmasi_bayar == 2 ? 'Dibayar' : ($eventnon->konfirmasi_bayar == 3 ? 'Berhasil Dikonfirmasi' : 'Selesai')) }}</td>
                                 <td>
-                                    @if($eventnon->konfirmasi_bayar == 3)
+                                    @if($eventnon->konfirmasi_bayar == 3 && \Carbon\Carbon::parse($eventnon->tanggal)->gte(\Carbon\Carbon::parse('2025-03-22 15:00:00')))
                                     <a class="btn btn-success" title="Download" target="_blank" href="{{ url('/download-sertifikat-data-non-pemakalah/' . $eventnon->id) }}">
                                         <i class="bi bi-download fs-5"></i>
                                     </a>
