@@ -91,7 +91,7 @@ class EventAdminController extends Controller
             'writers' => $writers
         ])->setPaper('a4', 'landscape');
 
-        $filename = 'sertifikat_pemakalah_' . $dataPemakalah->title . '_' . date('d-m-Y') . '.pdf';
+        $filename = 'sertifikat_pemakalah_' . date('Ymd', strtotime($dataPemakalah->date)) . $dataPemakalah->id . $dataPemakalah->id_user . $dataPemakalah->event_list . $dataPemakalah->category  .  date('dmY') . '.pdf';
 
         return $pdf->download($filename);
         // return $pdf->stream($filename); // Untuk menampilkan di browser
@@ -130,7 +130,7 @@ class EventAdminController extends Controller
             'writers' => $writers
         ])->setPaper('a4', 'landscape');
 
-        $filename = 'sertifikat_non_pemakalah_' . $dataPemakalah->nama_lengkap . '_' . date('d-m-Y') . '.pdf';
+        $filename = 'sertifikat_non_pemakalah_' . date('Ymd', strtotime($dataPemakalah->date)) . $dataPemakalah->id . $dataPemakalah->id_user . $dataPemakalah->event_list . date('dmY') . '.pdf';
 
         return $pdf->download($filename);
         // return $pdf->stream($filename); // Untuk menampilkan di browser
