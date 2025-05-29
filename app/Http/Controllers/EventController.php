@@ -20,9 +20,11 @@ class EventController extends Controller
     public function index()
     {
 
-        $event = EventList::select('event_list.*', 'event_type.nama as type_name', 'ms_semnas.name as semnas_name')->where('event_list.status', '1')
+        $event = EventList::select('event_list.*', 'event_type.nama as type_name', 'ms_semnas.name as semnas_name')
             ->join('event_type', 'event_list.id_type', '=', 'event_type.id')
             ->join('ms_semnas', 'event_list.semnas_id', '=', 'ms_semnas.id')
+            ->where('event_list.status', '1')
+            ->where('ms_semnas.status', '1')
             ->paginate(6);
 
         $data = [

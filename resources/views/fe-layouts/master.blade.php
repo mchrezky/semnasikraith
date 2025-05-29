@@ -46,7 +46,7 @@
       <a href="{{ url('/') }}" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!--<img src="{{ asset('assets/img/logo.png') }}" alt="AgriCulture">-->
-        <h1 class="sitename">Semnas Inonus</h1>
+        <h1 class="sitename">Semnas Ikra-ITH</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
